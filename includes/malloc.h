@@ -22,14 +22,14 @@
 
 #define HEADERSIZE      sizeof(t_header)
 
-#define TINYZONE        500 * 512
-#define SMALLZONE       500 * 1024
-
 #define TINYMAXSIZE     512
 #define SMALLMAXSIZE    1024
 
-#define TOTALTINYZONE   512 + HEADERSIZE 
-#define TOTALSMALLZONE    1024 + HEADERSIZE
+#define TOTALTINYSIZE   512 + (int)HEADERSIZE 
+#define TOTALSMALLSIZE  1024 + (int)HEADERSIZE
+
+#define TINYZONE        500 * TOTALTINYSIZE
+#define SMALLZONE       500 * TOTALSMALLSIZE
 
 typedef struct          s_header {
 	unsigned            is_free;
@@ -40,15 +40,13 @@ typedef struct          s_header {
 
 typedef struct             s_zones
 {
-    int                    tiny_page;
-    int                    small_page;
-    void                   *ptiny;
-    void                   *psmall;
+    int                    pages;
+    void                   *mem;
     t_header               *head;
     t_header               *tail;
 }                          t_zones;
 
-t_zones                     zones;
+t_zones                     zones[3];
 
 void		free(void *ptr);
 void		*malloc(size_t size);
@@ -59,6 +57,6 @@ void	    ft_putendl(char const *s);
 void	    ft_putnbr(int n);
 void	    ft_putstr(char const *s);
 void	    ft_putchar(char c);
-t_header *add_header(t_header *h, int size, int can_free);
+t_header    *add_header(t_header *h, int size, int can_free, int n);
 
 #endif
