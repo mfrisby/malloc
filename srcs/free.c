@@ -1,10 +1,16 @@
 #include "../includes/malloc.h"
+#include <string.h>
+#include <stdio.h>
+#include <errno.h>
 
 static int     gettype(int size)
 {
-    if (size <= TOTALTINYSIZE)
+    int pagesize;
+
+    pagesize = getpagesize();
+    if (size <= pagesize)
         return (0);
-    else if (size <= TOTALSMALLSIZE)
+    else if (size <= pagesize * 2)
         return (1);
     return (2);
 }
@@ -30,6 +36,7 @@ static int     remove_header(t_header *h)
         if (h == zones[n].tail)
             zones[n].tail = tmp->next;
     }
+    //TODO : free zone if empty ?
     return (size);
 }
 
@@ -46,20 +53,9 @@ void			free(void *ptr)
         if (h->can_free == 1)
         {
             size = remove_header(h);
-            if (munmap((void*)h, size) == -1)
-                ft_putstr("\033[34mFAILED\033[0m");
-            else
-                ft_putstr("\033[31mSUCCESS\033[0m");
+            munmap((void*)h, size);
         }
         else
-        {
-            ft_putstr("-not-");
             h->is_free = 1;
-        }
-    }
-    else
-    {
-        ft_putstr("\033[31mh\033[0m");
-        ptr = NULL;
     }
 }

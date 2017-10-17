@@ -22,14 +22,17 @@
 
 #define HEADERSIZE      sizeof(t_header)
 
-#define TINYMAXSIZE     512
-#define SMALLMAXSIZE    1024
+#define NBALLOC         200
+// #define PAGESIZE   getpagesize()
 
-#define TOTALTINYSIZE   512 + (int)HEADERSIZE 
-#define TOTALSMALLSIZE  1024 + (int)HEADERSIZE
+// #define TINYMAXSIZE     PAGESIZE - HEADERSIZE
+// #define SMALLMAXSIZE    (PAGESIZE - HEADERSIZE) * 2
 
-#define TINYZONE        500 * TOTALTINYSIZE
-#define SMALLZONE       500 * TOTALSMALLSIZE
+// #define TOTALTINYSIZE   TINYMAXSIZE + HEADERSIZE
+// #define TOTALSMALLSIZE  SMALLMAXSIZE + HEADERSIZE
+
+// #define TINYZONE        100 * TOTALTINYSIZE
+// #define SMALLZONE       100 * TOTALSMALLSIZE
 
 typedef struct          s_header {
 	unsigned            is_free;
