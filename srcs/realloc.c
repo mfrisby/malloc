@@ -1,22 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   realloc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mfrisby <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/10/18 15:56:50 by mfrisby           #+#    #+#             */
+/*   Updated: 2017/10/18 16:01:45 by mfrisby          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/malloc.h"
 
-void		*realloc(void *ptr, size_t size)
+static void		*valid_ptr(t_header *h, size_t size, size_t oldsize, void *ptr)
 {
-	t_header	*h;
 	void		*newptr;
-	size_t		oldsize;
 
-	oldsize = 0;
-	h = NULL;
-    if (size == 0 && ptr)
-	{
-		free(ptr);
-		return (NULL);
-	}
-	if (ptr == NULL)
-		return (malloc(size));
-	h = (t_header*)ptr - 1;
+	newptr = NULL;
 	if (h && h->can_free == 0 && h->is_free == 0)
 		return (NULL);
 	if (h && h->is_free == 0 && h->size > 0)
@@ -31,5 +31,23 @@ void		*realloc(void *ptr, size_t size)
 	}
 	else
 		return (NULL);
-    return (newptr);
+	return (newptr);
+}
+
+void			*realloc(void *ptr, size_t size)
+{
+	t_header	*h;
+	size_t		oldsize;
+
+	oldsize = 0;
+	h = NULL;
+	if (size == 0 && ptr)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	if (ptr == NULL)
+		return (malloc(size));
+	h = (t_header*)ptr - 1;
+	return (valid_ptr(h, size, oldsize, ptr));
 }

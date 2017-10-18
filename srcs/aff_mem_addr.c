@@ -1,40 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   aff_mem_addr.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mfrisby <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/10/18 15:50:11 by mfrisby           #+#    #+#             */
+/*   Updated: 2017/10/18 15:50:30 by mfrisby          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/malloc.h"
 
-static int		ft_unblen_base(unsigned long long n, int base)
+void		aff_mem_addr(size_t dec)
 {
-    int			len;
-    long double	pow;
- 
-    pow = 1;
-    len = 0;
-    while (n >= (pow *= base))
-        len++;
-    return (len + 1);
-}
+	size_t	i;
 
-static void		print_addr(int len, int nb, int base)
-{
-	char    s[len];
-	
-	if (nb == 0)
+	if (dec)
 	{
-		s[0] = '0';
-		s[1] = 0;
-		ft_putstr(s);
+		i = dec / 16;
+		aff_mem_addr(i);
+		if (dec % 16 < 10)
+			ft_putchar('0' + dec % 16);
+		else
+			ft_putchar('a' + (dec % 16) - 10);
 	}
-	while (nb)
-	{
-		s[--len] = nb % base > 9 ? nb % base - 10 + 'a' : nb % base + '0';
-		nb /= base;
-	}
-	ft_putstr(s);
-}
-
-void 			aff_mem_addr(int nb, int base)
-{
-	int len;
-
-	ft_putstr("0x");
-	len = ft_unblen_base(nb, base);
-	print_addr(len, nb, base);
+	else
+		ft_putstr("0x");
+	return ;
 }
