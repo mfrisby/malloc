@@ -1,41 +1,35 @@
 
 #include "../includes/malloc.h"
 
-// static void	*ft_memcpy(void *dst, const void *src, size_t n)
-// {
-// 	char	*str1;
-// 	char	*str2;
-// 	size_t	i;
-
-// 	i = 0;
-// 	str1 = (char*)dst;
-// 	str2 = (char*)src;
-// 	while (i < n)
-// 	{
-// 		str1[i] = str2[i];
-// 		i++;
-// 	}
-// 	return (dst);
-// }
-
 void		*realloc(void *ptr, size_t size)
 {
-    if (size <= 0)
-        return (NULL);
-    free(ptr);
-    return (malloc(size));
-	// size_t newsize;
-	// void	*newptr;
+	t_header	*h;
+	void		*newptr;
+	size_t		oldsize;
 
-	// newptr = NULL;
-	// newsize = size > sizeof(ptr) ? sizeof(ptr) : size;
-	// if (size <= 0)
-	// 	free(ptr);
-	// if ((int)size > 0)
-	// 	newptr = malloc(size);
-	// if (newptr && ptr)
-	// 	newptr = ft_memcpy(newptr, ptr, newsize);
-	// if (ptr)
-	// 	free(ptr);
-	// return (newptr);
+	oldsize = 0;
+	h = NULL;
+    if (size == 0 && ptr)
+	{
+		free(ptr);
+		return (NULL);
+	}
+	if (ptr == NULL)
+		return (malloc(size));
+	h = (t_header*)ptr - 1;
+	if (h && h->can_free == 0 && h->is_free == 0)
+		return (NULL);
+	if (h && h->is_free == 0 && h->size > 0)
+	{
+		oldsize = h->size;
+		newptr = malloc(size);
+		if (oldsize <= size)
+			newptr = ft_memcpy(newptr, ptr, oldsize);
+		else
+			newptr = ft_memcpy(newptr, ptr, size);
+		free(ptr);
+	}
+	else
+		return (NULL);
+    return (newptr);
 }
