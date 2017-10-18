@@ -1,7 +1,4 @@
 #include "../includes/malloc.h"
-#include <string.h>
-#include <stdio.h>
-#include <errno.h>
 
 static int     gettype(int size)
 {
@@ -36,7 +33,6 @@ static int     remove_header(t_header *h)
         if (h == zones[n].tail)
             zones[n].tail = tmp->next;
     }
-    //TODO : free zone if empty ?
     return (size);
 }
 
