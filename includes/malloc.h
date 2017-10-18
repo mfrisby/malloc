@@ -22,17 +22,7 @@
 
 #define HEADERSIZE      sizeof(t_header)
 
-#define NBALLOC         200
-// #define PAGESIZE   getpagesize()
-
-// #define TINYMAXSIZE     PAGESIZE - HEADERSIZE
-// #define SMALLMAXSIZE    (PAGESIZE - HEADERSIZE) * 2
-
-// #define TOTALTINYSIZE   TINYMAXSIZE + HEADERSIZE
-// #define TOTALSMALLSIZE  SMALLMAXSIZE + HEADERSIZE
-
-// #define TINYZONE        100 * TOTALTINYSIZE
-// #define SMALLZONE       100 * TOTALSMALLSIZE
+#define NBALLOC         150
 
 typedef struct          s_header {
 	unsigned            is_free;
@@ -60,6 +50,10 @@ void	    ft_putendl(char const *s);
 void	    ft_putnbr(int n);
 void	    ft_putstr(char const *s);
 void	    ft_putchar(char c);
+void        aff_mem_addr(int nb, int base);
+void        *ft_memcpy(void *dst, const void *src, size_t n);
 t_header    *add_header(t_header *h, int size, int can_free, int n);
+//char		*ft_utoa_base(unsigned long long nb, int base);
+
 
 #endif
