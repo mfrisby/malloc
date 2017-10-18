@@ -15,7 +15,7 @@ static void *new_mem(int size, int n)
     h = ptr;
     if (!h)
         return (NULL);
-    h = add_header(h, size + HEADERSIZE, 1, 2);
+    h = add_header(h, size + HEADERSIZE, 1, n);
     return ((void*)(h + 1));
 }
 
@@ -29,7 +29,7 @@ static void *get_free_space(int size, int n)
         if (h->is_free == 1)
         {
             h->is_free = 0;
-            h->size = size;
+            h->size = size + HEADERSIZE;
             return ((void*)(h + 1));
         }
         h = h->next;
@@ -58,7 +58,7 @@ static void *mem_zone(int size, int n, int pagesize)
     h = zones[n].mem + zones[n].pages * (pagesize);    
     if (!h)
         return (NULL);
-    h = add_header(h, size, 0, 0);
+    h = add_header(h, size + HEADERSIZE, 0, n);
     zones[n].pages++;
     return (void*)(h + 1);
 }
@@ -75,18 +75,11 @@ void		*malloc(size_t size)
         return (NULL);
     else if ((int)size + (int)HEADERSIZE <= pagesize / 4)
         ptr = mem_zone(size, 0, pagesize / 4);
-    else if ((int)size + (int)HEADERSIZE <= pagesize / 2)
-        ptr = mem_zone(size, 1, pagesize / 2);
+    else if ((int)size + (int)HEADERSIZE <= pagesize)
+        ptr = mem_zone(size, 1, pagesize);
     else
     {
-        if ((int)size + (int)HEADERSIZE <= pagesize)
-            ptr = new_mem(pagesize, 2);
-        else
-        {
-            while ((int)size > pagesize * i)
-                i++;
-            ptr = new_mem(pagesize * i, 2);
-        }
+        ptr = new_mem(size, 2);
     }
     return (ptr);
 }
