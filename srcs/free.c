@@ -1,69 +1,66 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: mfrisby <marvin@42.fr>                     +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/10/18 15:50:37 by mfrisby           #+#    #+#             */
-/*   Updated: 2017/10/18 15:51:48 by mfrisby          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "../includes/malloc.h"
+#include <sys/mman.h>
 
-static int		gettype(int size)
+static t_header	*getheadzone(int size)
 {
-	int			pagesize;
-
-	pagesize = getpagesize();
-	if (size <= pagesize)
-		return (0);
-	else if (size <= pagesize * 2)
-		return (1);
-	return (2);
+	if (size <= TINYSIZE)
+		return (g_zone.tinyhead);
+	else if (size <= SMALLSIZE)
+		return (g_zone.smallhead);
+	else if (size > SMALLSIZE)
+		return (g_zone.largehead);
+	return (NULL);
 }
 
 static int		remove_header(t_header *h)
 {
-	t_header	*tmp;
-	int			n;
-	int			size;
+	t_header *tmp;
+	int		size;
 
+	tmp = getheadzone(h->size);
 	size = h->size;
-	n = gettype(size);
-	tmp = zones[n].head;
 	while (tmp && tmp->next)
 	{
 		if (tmp->next == h)
-			break ;
+		{
+			tmp->next = h->next;
+			return (size);
+		}
 		tmp = tmp->next;
 	}
-	if (tmp)
-	{
-		tmp->next = h->next;
-		if (h == zones[n].tail)
-			zones[n].tail = tmp->next;
-	}
-	return (size);
+	return (-1);
 }
 
 void			free(void *ptr)
 {
+	int 		size;
 	t_header	*h;
-	int			size;
 
+	size = 0;
 	if (!ptr)
 		return ;
-	h = (t_header*)ptr - 1;
-	if (h && h->size)
+	h = ptr - sizeof(t_header);
+	if (h)
 	{
 		if (h->can_free == 1)
 		{
 			size = remove_header(h);
-			munmap((void*)h, size);
+			if (size > 0)
+				munmap((void*)h, h->size);
+			ft_putchar('X');
 		}
 		else
+		{
+			ft_putchar('x');
 			h->is_free = 1;
+		}
 	}
 }
+
+/**
+ *
+ *		t_header *h;
+ *		h = ptr;
+ *		ft_putnbr(h->size);
+ *  
+**/

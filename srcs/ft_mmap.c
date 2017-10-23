@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/malloc.h"
+#include <sys/mman.h>
 
 void		*ft_mmap(int size)
 {
