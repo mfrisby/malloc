@@ -19,7 +19,7 @@ static void add_header(t_header *h)
 
 static void *get_free_space(int size)
 {
-    t_header    *tmp;
+    t_header *tmp;
 
     tmp = g_zone.smallhead;
     while (tmp)
@@ -35,9 +35,13 @@ static void *get_free_space(int size)
     return (NULL);
 }
 
-static void *add_in_zone(t_header *h, int size)
+static void *add_in_zone(int size)
 {
+    t_header *h;
+
     h = g_zone.smallmem + (g_zone.smallpages * SMALLSIZE) + 1;
+    if (!h)
+        return (NULL);
     h->can_free = 0;
     h->is_free = 0;
     g_zone.smallpages++;
@@ -46,15 +50,18 @@ static void *add_in_zone(t_header *h, int size)
     return (h);
 }
 
-static void *add_out_zone(t_header *h, int size)
+static void *add_out_zone(int size)
 {
+    t_header *h;
+
     h = ft_mmap(size + sizeof(t_header));
+    if (!h)
+        return (NULL);
     h->can_free = 1;
     h->is_free = 0;
     h->size = size + sizeof(t_header);
     h->next = NULL;
     add_header(h);
-    ft_putchar('O');
     return (h);
 }
 
@@ -63,6 +70,7 @@ void        *small_zone(int size)
     t_header *h;
 
     h = NULL;
+    ft_putchar('S');
     if (!g_zone.smallmem)
     {
         g_zone.smallmem = ft_mmap(SMALLZONE);
@@ -75,15 +83,11 @@ void        *small_zone(int size)
         g_zone.smallpages = 1;
         return (h);
     }
-    h = get_free_space(size);
-    if (h)
+    if ((h = get_free_space(size)))
         return (h);
     if (SMALLZONE <= (g_zone.smallpages) * SMALLSIZE)
-        h = add_out_zone(h, size);
+        h = add_out_zone(size);
     else
-    {
-        ft_putnbr(g_zone.smallpages);
-        h = add_in_zone(h, size);
-    }
-    return ((void*)h);
+        h = add_in_zone(size);
+    return (h);
 }

@@ -18,7 +18,7 @@ void		*ft_mmap(int size)
 	void	*ptr;
 
 	ptr = NULL;
-	if ((ptr = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_ANON |
+	if ((ptr = mmap(NULL, size, PROT_READ | PROT_WRITE, MAP_ANONYMOUS |
 					MAP_PRIVATE, -1, 0)) == ((void *)-1))
 		return (NULL);
 	return (ptr);

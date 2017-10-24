@@ -1,6 +1,8 @@
 #include <unistd.h>
 #include "../includes/malloc.h"
 
+//t_zone		g_zone = {0, 0, NULL, NULL, NULL, NULL, NULL};
+
 static void     basic_header(t_header *h, int can_free, int size)
 {
     t_header *tmp;
@@ -15,9 +17,7 @@ static void     basic_header(t_header *h, int can_free, int size)
         return ;
     }
     while (tmp && tmp->next)
-    {
         tmp = tmp->next;
-    }
     tmp->next = h;
 }
 

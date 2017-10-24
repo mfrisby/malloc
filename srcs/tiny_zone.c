@@ -62,6 +62,7 @@ void        *tiny_zone(int size)
     t_header *h;
     
     h = NULL;
+    ft_putchar('T');
     if (!g_zone.tinymem)
     {
         g_zone.tinymem = ft_mmap(TINYZONE);

@@ -56,11 +56,3 @@ void			free(void *ptr)
 		}
 	}
 }
-
-/**
- *
- *		t_header *h;
- *		h = ptr;
- *		ft_putnbr(h->size);
- *  
-**/
