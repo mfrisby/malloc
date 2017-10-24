@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   free.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mfrisby <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/10/24 13:33:15 by mfrisby           #+#    #+#             */
+/*   Updated: 2017/10/24 13:34:08 by mfrisby          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../includes/malloc.h"
 #include <sys/mman.h>
 
@@ -14,8 +26,8 @@ static t_header	*getheadzone(int size)
 
 static int		remove_header(t_header *h)
 {
-	t_header *tmp;
-	int		size;
+	t_header	*tmp;
+	int			size;
 
 	tmp = getheadzone(h->size);
 	size = h->size;
@@ -33,7 +45,7 @@ static int		remove_header(t_header *h)
 
 void			free(void *ptr)
 {
-	int 		size;
+	int			size;
 	t_header	*h;
 
 	size = 0;
