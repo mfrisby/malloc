@@ -6,7 +6,7 @@
 /*   By: mfrisby <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/24 13:29:30 by mfrisby           #+#    #+#             */
-/*   Updated: 2017/10/24 13:30:55 by mfrisby          ###   ########.fr       */
+/*   Updated: 2017/10/24 13:48:31 by mfrisby          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ void			*tiny_zone(int size)
 	t_header *h;
 
 	h = NULL;
-	ft_putchar('T');
 	if (!g_zone.tinymem)
 	{
 		g_zone.tinymem = ft_mmap(TINYZONE);

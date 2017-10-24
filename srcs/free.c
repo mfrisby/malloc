@@ -6,7 +6,7 @@
 /*   By: mfrisby <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/24 13:33:15 by mfrisby           #+#    #+#             */
-/*   Updated: 2017/10/24 13:34:08 by mfrisby          ###   ########.fr       */
+/*   Updated: 2017/10/24 13:49:14 by mfrisby          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,8 @@ void			free(void *ptr)
 			size = remove_header(h);
 			if (size > 0)
 				munmap((void*)h, h->size);
-			ft_putchar('X');
 		}
 		else
-		{
-			ft_putchar('x');
 			h->is_free = 1;
-		}
 	}
 }

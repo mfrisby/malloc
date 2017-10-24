@@ -6,7 +6,7 @@
 /*   By: mfrisby <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/24 13:30:58 by mfrisby           #+#    #+#             */
-/*   Updated: 2017/10/24 13:31:52 by mfrisby          ###   ########.fr       */
+/*   Updated: 2017/10/24 13:48:40 by mfrisby          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ void			*small_zone(int size)
 	t_header	*h;
 
 	h = NULL;
-	ft_putchar('S');
 	if (!g_zone.smallmem)
 	{
 		g_zone.smallmem = ft_mmap(SMALLZONE);
