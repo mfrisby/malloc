@@ -6,7 +6,7 @@
 /*   By: mfrisby <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/10/24 13:29:30 by mfrisby           #+#    #+#             */
-/*   Updated: 2017/10/24 13:48:31 by mfrisby          ###   ########.fr       */
+/*   Updated: 2017/10/24 13:53:32 by mfrisby          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void		*get_free_space(int size)
 	{
 		if (tmp->is_free == 1)
 		{
-			tmp->size = size;
+			tmp->size = size + sizeof(t_header);
 			tmp->is_free = 0;
 			return (tmp);
 		}
@@ -80,7 +80,7 @@ void			*tiny_zone(int size)
 		h = g_zone.tinymem;
 		h->can_free = 0;
 		h->is_free = 0;
-		h->size = size;
+		h->size = size + sizeof(t_header);
 		h->next = NULL;
 		g_zone.tinyhead = h;
 		g_zone.tinypages = 1;
