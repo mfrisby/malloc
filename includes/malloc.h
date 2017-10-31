@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   malloc.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mfrisby <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2017/10/31 10:07:43 by mfrisby           #+#    #+#             */
+/*   Updated: 2017/10/31 10:10:06 by mfrisby          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MALLOC_H
 # define MALLOC_H
 
@@ -35,8 +47,8 @@ void					free(void *ptr);
 void					*malloc(size_t size);
 void					*realloc(void *ptr, size_t size);
 void					*ft_mmap(int size);
-void                    *tiny_zone(int size);
-void                    *small_zone(int size);
+void					*tiny_zone(int size);
+void					*small_zone(int size);
 void					show_alloc_mem();
 void					ft_putendl(char const *s);
 void					ft_putnbr(int n);
@@ -44,7 +56,5 @@ void					ft_putstr(char const *s);
 void					ft_putchar(char c);
 void					aff_mem_addr(size_t dec);
 void					*ft_memcpy(void *dst, const void *src, size_t n);
-//t_header				*add_header(t_header *h, int size, int can_free, int n);
-
 
 #endif
