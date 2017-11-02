@@ -15,13 +15,8 @@
 
 # include <stdlib.h>
 
-# define REWRITE	1
-# define WOCCUPED	3
-# define FOCCUPED	4
 # define TINYSIZE 	512
-# define TINYZONE	512 * 150
 # define SMALLSIZE	1100
-# define SMALLZONE	1100 * 1024
 
 typedef struct			s_header {
 	int					is_free;
@@ -47,8 +42,8 @@ void					free(void *ptr);
 void					*malloc(size_t size);
 void					*realloc(void *ptr, size_t size);
 void					*ft_mmap(int size);
-void					*tiny_zone(int size);
-void					*small_zone(int size);
+void					*tiny_zone(int size, int zonesize);
+void					*small_zone(int size, int zonesize);
 void					show_alloc_mem();
 void					ft_putendl(char const *s);
 void					ft_putnbr(int n);

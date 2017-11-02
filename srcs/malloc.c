@@ -34,14 +34,16 @@ static void		basic_header(t_header *h, int can_free, int size)
 void			*malloc(size_t size)
 {
 	void		*ptr;
+	int			pagesize;
 
 	ptr = NULL;
+	pagesize = getpagesize();
 	if (size <= 0)
 		return (NULL);
 	if (size + sizeof(t_header) < TINYSIZE)
-		ptr = tiny_zone(size);
+		ptr = tiny_zone(size, pagesize * 500);
 	else if (size + sizeof(t_header) <= SMALLSIZE)
-		ptr = small_zone(size);
+		ptr = small_zone(size, pagesize * 500);
 	else
 	{
 		ptr = ft_mmap(size + sizeof(t_header));

@@ -69,14 +69,14 @@ static void		*add_out_zone(t_header *h, int size)
 	return (h);
 }
 
-void			*tiny_zone(int size)
+void			*tiny_zone(int size, int zonesize)
 {
 	t_header *h;
 
 	h = NULL;
 	if (!g_zone.tinymem)
 	{
-		g_zone.tinymem = ft_mmap(TINYZONE);
+		g_zone.tinymem = ft_mmap(zonesize);
 		h = g_zone.tinymem;
 		h->can_free = 0;
 		h->is_free = 0;
@@ -89,7 +89,7 @@ void			*tiny_zone(int size)
 	h = get_free_space(size);
 	if (h)
 		return (h);
-	if (TINYZONE <= (g_zone.tinypages + 1) * SMALLSIZE)
+	if (zonesize <= (g_zone.tinypages + 1) * SMALLSIZE)
 		h = add_out_zone(h, size);
 	else
 		h = add_in_zone(h, size);
