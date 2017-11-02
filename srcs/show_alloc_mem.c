@@ -45,8 +45,6 @@ static void		aff_zone(t_header *head, int n)
 		aff_mem_addr((size_t)((void*)g_zone.smallmem));
 	else if (n == 2 && head)
 		aff_mem_addr((size_t)((void*)head + 1));
-	else
-		ft_putstr("none");
 	ft_putchar('\n');
 }
 
