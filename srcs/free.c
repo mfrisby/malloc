@@ -43,6 +43,34 @@ static int		remove_header(t_header *h)
 	return (-1);
 }
 
+static int		is_ok(t_header *h)
+{
+	t_header	*tmp;
+
+	tmp = g_zone.tinyhead;
+	while (tmp)
+	{
+		if (h == tmp)
+			return (1);
+		tmp = tmp->next;
+	}
+	tmp = g_zone.smallhead;
+	while (tmp)
+	{
+		if (h == tmp)
+			return (1);
+		tmp = tmp->next;
+	}
+	tmp = g_zone.largehead;
+	while (tmp)
+	{
+		if (h == tmp)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (-1);
+}
+
 void			free(void *ptr)
 {
 	int			size;
@@ -52,7 +80,7 @@ void			free(void *ptr)
 	if (!ptr)
 		return ;
 	h = ptr - sizeof(t_header);
-	if (h)
+	if (h && is_ok(h) == 1)
 	{
 		if (h->can_free == 1)
 		{
